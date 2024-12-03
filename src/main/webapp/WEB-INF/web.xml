@@ -12,6 +12,10 @@
         <servlet-name>ErrorHandler</servlet-name>
         <servlet-class>com.mycompany.course.work.ErrorHandler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignOutServlet</servlet-name>
+        <servlet-class>com.mycompany.course.work.SignOutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
         <url-pattern>/SignUpServlet</url-pattern>
@@ -24,12 +28,15 @@
         <servlet-name>ErrorHandler</servlet-name>
         <url-pattern>/ErrorHandler</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignOutServlet</servlet-name>
+        <url-pattern>/SignOutServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
     <error-page>
         <error-code>400</error-code>
         <location>/ErrorHandler</location>

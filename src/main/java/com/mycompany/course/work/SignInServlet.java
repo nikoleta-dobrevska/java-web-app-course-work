@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -50,6 +51,12 @@ public class SignInServlet extends HttpServlet {
                     String hashedPassword = resultSet.getString("Password");
 
                     if (hashPassword.equals(hashedPassword)) {
+                        HttpSession session = request.getSession(true);  
+                        
+                        if (session == null) {
+                            session.setAttribute("email", email);  
+                        }
+                        
                         response.sendRedirect("flights.html");
                         return;
                     } else {
