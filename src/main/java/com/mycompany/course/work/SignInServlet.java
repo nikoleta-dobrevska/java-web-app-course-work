@@ -51,13 +51,15 @@ public class SignInServlet extends HttpServlet {
                     String hashedPassword = resultSet.getString("Password");
 
                     if (hashPassword.equals(hashedPassword)) {
+                        HttpSession oldSession = request.getSession(false);                               
+                        if (oldSession != null) {
+                            oldSession.invalidate();
+                        }  
+                        
                         HttpSession session = request.getSession(true);  
-                        
-                        if (session == null) {
-                            session.setAttribute("email", email);  
-                        }
-                        
-                        response.sendRedirect("flights.html");
+                        session.setAttribute("email", email);  
+                                              
+                        response.sendRedirect("JSP Pages/user-dashboard.jsp");
                         return;
                     } else {
                         response.sendRedirect("sign-in.html?error=invalid");

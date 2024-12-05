@@ -16,15 +16,20 @@ import jakarta.servlet.http.HttpSession;
  * @author Niki
  */
 public class SignOutServlet extends HttpServlet {
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {     
-        
-        HttpSession session = request.getSession(false);
-        
-        if(session != null){  
-            session.invalidate();  
-            response.sendRedirect("index.html");
-        }     
+            throws ServletException, IOException { 
+        try {
+            HttpSession session = request.getSession(false);
+
+            if (session != null) {
+                session.invalidate();
+            }
+            
+            response.sendRedirect("JSP Pages/index.jsp");
+        } catch (IOException e) {
+            response.getWriter().println("Error: " + e);
+        }
     }
 }
