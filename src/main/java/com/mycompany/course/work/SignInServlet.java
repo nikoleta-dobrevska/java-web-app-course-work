@@ -4,6 +4,8 @@
  */
 package com.mycompany.course.work;
 
+import com.mycompany.course.work.bean.User;
+import com.mycompany.course.work.dao.UserDao;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +16,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Niki
@@ -32,58 +36,31 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection conn = null;
-        PreparedStatement statement = null;
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
+        UserDao userDao = new UserDao();
+        String hashedPassword = null;
+        
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/CourseWorkDatabase", "se4y", "12345678");
-
-            String email = request.getParameter("email");
-            String pwd = request.getParameter("password");
-            String hashPassword = HashPassword.hashPassword(pwd);
-
-            statement = conn.prepareStatement("SELECT Email, Password FROM Users WHERE Email = ?");
-            statement.setString(1, email);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String hashedPassword = resultSet.getString("Password");
-
-                    if (hashPassword.equals(hashedPassword)) {
-                        HttpSession oldSession = request.getSession(false);                               
-                        if (oldSession != null) {
-                            oldSession.invalidate();
-                        }  
-                        
-                        HttpSession session = request.getSession(true);  
-                        session.setAttribute("email", email);  
-                                              
-                        response.sendRedirect("JSP Pages/user-dashboard.jsp");
-                        return;
-                    } else {
-                        response.sendRedirect("sign-in.html?error=invalid");
-                        return;
-                    }
-                } else {
-                    response.sendRedirect("sign-in.html?error=invalid");
-                    return;
-                }
-            }
-        } catch (Exception e) {
-            response.getWriter().println("Error: " + e.getMessage());
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                response.getWriter().println("Error: " + e.getMessage());
-            }
+            hashedPassword = HashPassword.hashPassword(password);
+        } catch (Exception ex) {
+            Logger.getLogger(SignInServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        User user = userDao.authenticateUser(email, hashedPassword);
+        
+        if (user != null) {
+            HttpSession oldSession = request.getSession(false);
+            if (oldSession != null) {
+                oldSession.invalidate();
+            }
+
+            HttpSession newSession = request.getSession(); 
+            newSession.setAttribute("currentUser", user);
+            response.sendRedirect("JSP Pages/protected/user-dashboard.jsp");
+            } else {
+                response.sendRedirect("JSP Pages/sign-in.jsp?error=invalid");
+            }
     }
 }

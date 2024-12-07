@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +15,7 @@
     </head>
     <body>
         <h1>HOME</h1>
-        <a href="sign-up.html">Sign Up</a>
-        <a href="sign-in.html">Sign In</a>
+        <a href="sign-up.jsp">Sign Up</a>
+        <a href="sign-in.jsp">Sign In</a>
     </body>
 </html>

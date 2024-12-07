@@ -38,6 +38,8 @@ public class FlightDao {
                 f.setDepartureTime(resultSet.getString("DepartureTime"));  
                 f.setArrivalDate(resultSet.getString("ArrivalDate"));  
                 f.setArrivalTime(resultSet.getString("ArrivalTime"));
+                f.setPrice(resultSet.getInt("Price"));
+                f.setSeats(resultSet.getInt("Seats"));
                 list.add(f);  
             }  
         }catch(ClassNotFoundException | SQLException e){
@@ -51,7 +53,7 @@ public class FlightDao {
                 if (conn != null) {
                     conn.close();
                 }
-            }catch (Exception e) {
+            }catch (SQLException e) {
                     System.out.println(e);
             }
         }  
