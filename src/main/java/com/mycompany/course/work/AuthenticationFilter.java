@@ -22,7 +22,7 @@ import static java.rmi.server.LogStream.log;
  *
  * @author Niki
  */
-@WebFilter("/protected/*")
+@WebFilter("/user/*")
 public class AuthenticationFilter implements Filter {
     
     private static final boolean debug = true;

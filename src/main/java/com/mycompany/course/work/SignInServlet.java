@@ -6,6 +6,7 @@ package com.mycompany.course.work;
 
 import com.mycompany.course.work.bean.User;
 import com.mycompany.course.work.dao.UserDao;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -51,6 +52,7 @@ public class SignInServlet extends HttpServlet {
         User user = userDao.authenticateUser(email, hashedPassword);
         
         if (user != null) {
+
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
                 oldSession.invalidate();
@@ -58,7 +60,8 @@ public class SignInServlet extends HttpServlet {
 
             HttpSession newSession = request.getSession(); 
             newSession.setAttribute("currentUser", user);
-            response.sendRedirect("JSP Pages/protected/user-dashboard.jsp");
+            
+            response.sendRedirect(request.getContextPath() + "/JSP Pages/user/user-dashboard.jsp");
             } else {
                 response.sendRedirect("JSP Pages/sign-in.jsp?error=invalid");
             }

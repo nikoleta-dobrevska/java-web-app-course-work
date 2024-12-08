@@ -20,7 +20,7 @@
             <form action="${pageContext.request.contextPath}/SignOutServlet" method="POST">
                 <input type="submit" value="Sign Out">
             </form> 
-            
+                
             <h3>Flights</h3>
             <table border="1" width="90%">  
                 <tr>
@@ -31,7 +31,7 @@
                     <th>Departure Time</th>
                     <th>Arrival Date</th>
                     <th>Arrival Time</th>
-                    <th>Price</th>
+                    <th>Price (BGN)</th>
                 </tr>
                 <c:forEach items="${flights}" var="f">  
                 <tr>

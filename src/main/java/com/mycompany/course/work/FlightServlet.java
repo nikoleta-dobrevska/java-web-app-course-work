@@ -6,13 +6,15 @@ package com.mycompany.course.work;
 
 import com.mycompany.course.work.bean.Flight;
 import com.mycompany.course.work.dao.FlightDao;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -51,10 +53,10 @@ public class FlightServlet extends HttpServlet {
             List<Flight> flights = FlightDao.getAll();
             
             // Set the flights as a request attribute
-            request.setAttribute("flights", flights);
-            
+           request.setAttribute("allFlights", flights);
+           
             // Forward the request to the JSP
-            request.getRequestDispatcher("flights.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/JSP Pages/user/user-dashboard.jsp");
             } catch (SQLException e) {
                 response.getWriter().println("Error: " + e.getMessage());
         }    
@@ -71,6 +73,25 @@ public class FlightServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String flightNumber = request.getParameter("flightNumber");
+        String origin = request.getParameter("origin");
+        String destination = request.getParameter("destination");
+        String depDate = request.getParameter("depDate");
+        String depTime = request.getParameter("depTime");
+        String arrDate = request.getParameter("arrDate");
+        String arrTime = request.getParameter("arrTime");
+        int price = Integer.parseInt(request.getParameter("price"));
+        int seats = Integer.parseInt(request.getParameter("seats"));
+        
+        FlightDao flightDao = new FlightDao();
+        
+        Flight flight = new Flight(flightNumber, origin, destination, depDate, depTime, arrDate, arrTime, price, seats);
+        boolean isAdded = flightDao.addFlight(flight);   
+
+        if (isAdded) {
+            response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/admin-dashboard.jsp");
+        } else {
+            response.getWriter().println("Error!");
+        }
     }
 }

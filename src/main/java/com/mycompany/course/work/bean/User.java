@@ -35,7 +35,6 @@ public class User {
         this.country = country;
     }
     
-    // Getters and setters
     public int getId() {
         return id;
     }
