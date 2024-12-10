@@ -28,6 +28,7 @@
             %>  
 
             <h3>Flights</h3>
+            <p id="message-for-user"></p>
             <table border="1" width="90%">  
                 <tr>
                     <th>Flight Number</th>
@@ -39,7 +40,7 @@
                     <th>Arrival Time</th>
                     <th>Price (BGN)</th>
                 </tr>
-                <c:forEach items="${flights}" var="f">  
+                <c:forEach items="${allFlights}" var="f">  
                 <tr>
                     <td>${f.getFlightNumber()}</td>  
                     <td>${f.getOrigin()}</td>
@@ -49,12 +50,17 @@
                     <td>${f.getArrivalDate()}</td>
                     <td>${f.getArrivalTime()}</td>
                     <td>${f.getPrice()}</td>
-                    <td><a href="edit-flights.jsp">Edit</a></td>
-                    <td><a href="delete-flights.jsp">Delete</a></td>
+                    <td><a href="edit-flights.jsp?id=${f.id}">Edit</a></td>
+                <form action="${pageContext.request.contextPath}/FlightServlet" method="POST" style="display:inline;">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" value="${f.id}">
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this flight?');">Delete</button>
+                </form>
                 </tr>  
                 </c:forEach>  
             </table>     
-            <a href="/JSP Pages/admin/add-flight.jsp">Add Flight</a>
+            <a href="${pageContext.request.contextPath}/JSP Pages/admin/add-flight.jsp">Add Flight</a>
         </div>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/params-script.js"></script>
     </body>
 </html>

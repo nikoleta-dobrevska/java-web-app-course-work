@@ -9,7 +9,7 @@ package com.mycompany.course.work.bean;
  * @author Niki
  */
 public class Flight {
-    private int id;
+    public int id;
     private String flightNumber;
     private String origin;
     private String destination;

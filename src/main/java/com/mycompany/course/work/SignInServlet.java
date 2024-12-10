@@ -61,7 +61,7 @@ public class SignInServlet extends HttpServlet {
             HttpSession newSession = request.getSession(); 
             newSession.setAttribute("currentUser", user);
             
-            response.sendRedirect(request.getContextPath() + "/JSP Pages/user/user-dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/admin-dashboard.jsp");
             } else {
                 response.sendRedirect("JSP Pages/sign-in.jsp?error=invalid");
             }

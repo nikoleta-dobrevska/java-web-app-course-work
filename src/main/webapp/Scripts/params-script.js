@@ -17,5 +17,14 @@ if (urlParams.get('register') === 'valid') {
     document.getElementById('message-for-user').innerText = 'You have registered successfully! Sign in to get started!';
 }
 
+if (urlParams.get('add') === 'success') {
+    document.getElementById('message-for-user').innerText = 'Flight was added successfully!';
+}
 
+if (urlParams.get('edit') === 'success') {
+    document.getElementById('message-for-user').innerText = 'Flight was edited successfully!';
+}
 
+if (urlParams.get('delete') === 'success') {
+    document.getElementById('message-for-user').innerText = 'Flight was deleted successfully!';
+}

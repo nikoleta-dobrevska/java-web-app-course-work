@@ -14,6 +14,7 @@
     <body>
         <h3>Add Flight</h3>
         <form action="${pageContext.request.contextPath}/FlightServlet" method="post">
+            <input type="hidden" name="action" value="add">
             <label for="flightNumber">Flight Number</label>
             <input type="text" id="flightNumber" name="flightNumber" required/><br>
             <label for="origin">Origin</label>
@@ -25,6 +26,14 @@
             <select id="destination" name="destination">
                 <option value="Sofia">SOFIA (SOF)</option>
                 <option value="Varna">VARNA (VAR)</option>
+                <option value="London">LONDON (LHR)</option>
+                <option value="Paris">PARIS (CDG)</option>
+                <option value="Madrid">MADRID (MAD)</option>
+                <option value="Rome">ROME (FCO)</option>
+                <option value="Vienna">VIENNA (VIE)</option>
+                <option value="Berlin">BERLIN (BER)</option>
+                <option value="Reykjavik">REYKJAVIK (RKV)</option>
+                <option value="Oslo">OSLO (OSL)</option>
             </select><br>            
             <label for="depDate">Departure Date</label>
             <input type="text" id="depDate" name="depDate" required/><br>
