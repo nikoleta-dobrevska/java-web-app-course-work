@@ -13,8 +13,16 @@ if (urlParams.get('error') === 'invalid') {
     document.getElementById('message-for-user').innerText = 'Wrong email and/or password!';
 }
 
+if (urlParams.get('role') === 'invalid') {
+    document.getElementById('message-for-user').innerText = 'Error getting role!';
+}
+
 if (urlParams.get('register') === 'valid') {
     document.getElementById('message-for-user').innerText = 'You have registered successfully! Sign in to get started!';
+}
+
+if (urlParams.get('register') === 'roleSetError') {
+    document.getElementById('message-for-user').innerText = 'Role set failed!';
 }
 
 if (urlParams.get('add') === 'success') {

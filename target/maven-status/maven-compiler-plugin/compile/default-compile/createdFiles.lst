@@ -1,5 +1,7 @@
 com\mycompany\course\work\SignOutServlet.class
+com\mycompany\course\work\dao\UserRoleDao.class
 com\mycompany\course\work\bean\User.class
+com\mycompany\course\work\bean\UserRole.class
 com\mycompany\course\work\ErrorHandler.class
 com\mycompany\course\work\bean\Flight.class
 com\mycompany\course\work\dao\FlightDao.class
@@ -9,4 +11,6 @@ com\mycompany\course\work\dao\UserDao.class
 com\mycompany\course\work\HashPassword.class
 com\mycompany\course\work\SignUpServlet.class
 com\mycompany\course\work\FlightServlet.class
+com\mycompany\course\work\bean\Role.class
 com\mycompany\course\work\resources\JakartaEE10Resource.class
+com\mycompany\course\work\AuthenticationFilter.class

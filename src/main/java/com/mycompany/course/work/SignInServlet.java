@@ -5,18 +5,15 @@
 package com.mycompany.course.work;
 
 import com.mycompany.course.work.bean.User;
+import com.mycompany.course.work.bean.UserRole;
 import com.mycompany.course.work.dao.UserDao;
-import jakarta.servlet.RequestDispatcher;
+import com.mycompany.course.work.dao.UserRoleDao;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -49,7 +46,7 @@ public class SignInServlet extends HttpServlet {
             Logger.getLogger(SignInServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        User user = userDao.authenticateUser(email, hashedPassword);
+        User user = userDao.authenticateUser(email, hashedPassword);       
         
         if (user != null) {
 
@@ -58,12 +55,33 @@ public class SignInServlet extends HttpServlet {
                 oldSession.invalidate();
             }
 
-            HttpSession newSession = request.getSession(); 
+            HttpSession newSession = request.getSession();
             newSession.setAttribute("currentUser", user);
+
+            UserRoleDao userRoleDao = new UserRoleDao();
+            UserRole role = userRoleDao.getRole(user.getId());
             
-            response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/admin-dashboard.jsp");
-            } else {
-                response.sendRedirect("JSP Pages/sign-in.jsp?error=invalid");
+            if (role == null) {
+                response.sendRedirect("JSP Pages/sign-in.jsp?role=notfound");
+                return;
             }
+            
+            newSession.setAttribute("role", role.getRoleId());
+            
+            switch (role.getRoleId()) {
+                case 2:
+                    response.sendRedirect(request.getContextPath() + "/JSP Pages/user/user-dashboard.jsp");
+                    break;
+                case 1:
+                    newSession.setAttribute("role", role.getRoleId());
+                    response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/admin-dashboard.jsp");
+                    break;
+                default:
+                    response.sendRedirect("JSP Pages/sign-in.jsp?role=invalid");
+                    break;
+            }
+        } else {
+            response.sendRedirect("JSP Pages/sign-in.jsp?error=invalid");
+        }
     }
 }

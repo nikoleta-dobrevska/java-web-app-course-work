@@ -5,7 +5,9 @@
 package com.mycompany.course.work;
 
 import com.mycompany.course.work.bean.User;
+import com.mycompany.course.work.bean.UserRole;
 import com.mycompany.course.work.dao.UserDao;
+import com.mycompany.course.work.dao.UserRoleDao;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -39,26 +41,33 @@ public class SignUpServlet extends HttpServlet {
         String country = request.getParameter("country");
 
         UserDao userDao = new UserDao();
-        boolean isRegistered;
-        
+                
         if (userDao.checkIfUserExists(email)) {
             response.sendRedirect("JSP Pages/sign-up.jsp?register=invalid");
             return;
-        } else {
-            String hashedPassword = null;
+        } 
         
-            try {
-                hashedPassword = HashPassword.hashPassword(password);
-            } catch (Exception ex) {
-                Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-            User user = new User(fname, lname, email, hashedPassword, country);
-            isRegistered = userDao.registerUser(user);
+        String hashedPassword = null;
+
+        try {
+            hashedPassword = HashPassword.hashPassword(password);
+        } catch (Exception ex) {
+            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        User user = new User(fname, lname, email, hashedPassword, country);
+        int userId = userDao.registerUser(user);
+
         
-        if (isRegistered) {
-            response.sendRedirect("JSP Pages/sign-in.jsp?register=valid");
+        if (userId > 0) {
+            UserRoleDao userRoleDao = new UserRoleDao();
+            boolean roleSet = userRoleDao.setRole(userId, 2);
+            
+            if (roleSet) {
+                response.sendRedirect("JSP Pages/sign-in.jsp?register=valid");
+            } else {
+                response.sendRedirect("JSP Pages/sign-up.jsp?register=roleSetError");
+            }        
         } else {
             response.sendRedirect("JSP Pages/sign-up.jsp?register=invalid");
         }

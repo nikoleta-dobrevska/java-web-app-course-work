@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -37,20 +38,29 @@ public class UserDao {
         }
     }
 
-    public boolean registerUser(User user) {
+    public int registerUser(User user) {
         String query = "INSERT INTO Users (FirstName, LastName, Email, Password, Country) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement(query)) {
+            PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getCountry());
-            return statement.executeUpdate() > 0;
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        conn.commit(); 
+                        return generatedKeys.getInt(1);
+                    }
+                }
+            }
         } catch (Exception e) {
             System.out.println(e);
-            return false;
-        }
+        }            
+        return 0;
     }
 
     public User authenticateUser(String email, String password) {
@@ -62,6 +72,7 @@ public class UserDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return new User(
+                        resultSet.getInt("UserID"),
                         resultSet.getString("FirstName"),
                         resultSet.getString("LastName"),
                         resultSet.getString("Email"),

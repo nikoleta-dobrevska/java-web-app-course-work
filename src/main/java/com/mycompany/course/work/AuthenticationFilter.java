@@ -22,7 +22,7 @@ import static java.rmi.server.LogStream.log;
  *
  * @author Niki
  */
-@WebFilter("/user/*")
+@WebFilter(urlPatterns = {"/user/*", "/admin/*"})
 public class AuthenticationFilter implements Filter {
     
     private static final boolean debug = true;
@@ -54,6 +54,7 @@ public class AuthenticationFilter implements Filter {
 
             if(session == null || session.getAttribute("currentUser") == null) {
                 res.sendRedirect(req.getContextPath() + "/JSP Pages/sign-in.jsp");
+                return; 
             } else {
                 chain.doFilter(request, response);
             }
