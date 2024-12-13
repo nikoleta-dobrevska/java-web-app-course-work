@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -55,5 +57,38 @@ public class UserRoleDao {
         }
 
         return null;
+    }
+    
+    public List<UserRole> getAll() throws SQLException {
+        List<UserRole> userRoles = new ArrayList<>();
+        String query = "SELECT * FROM UserRole";
+
+        try (Connection conn = getConnection(); 
+            PreparedStatement statement = conn.prepareStatement(query);) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                UserRole u = new UserRole();
+                u.setUserId(resultSet.getInt("UserID"));
+                u.setRoleId(resultSet.getInt("RoleID"));
+                userRoles.add(u);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+
+        return userRoles;
+    }
+    
+    public void updateUserRole(int userId, int newRoleId) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE UserRole SET RoleID = ? WHERE UserID = ?";
+        
+        try (Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, newRoleId);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }

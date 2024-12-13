@@ -59,7 +59,8 @@
                 </tr>  
                 </c:forEach>  
             </table>     
-            <a href="${pageContext.request.contextPath}/JSP Pages/admin/add-flight.jsp">Add Flight</a>
+            <a href="${pageContext.request.contextPath}/JSP Pages/admin/add-flight.jsp">Add</a>
+            <a href="${pageContext.request.contextPath}/JSP Pages/admin/manage-users.jsp">Manage Users</a>
         </div>
         <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/params-script.js"></script>
     </body>

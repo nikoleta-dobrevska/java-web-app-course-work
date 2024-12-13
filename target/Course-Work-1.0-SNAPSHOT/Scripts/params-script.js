@@ -36,3 +36,7 @@ if (urlParams.get('edit') === 'success') {
 if (urlParams.get('delete') === 'success') {
     document.getElementById('message-for-user').innerText = 'Flight was deleted successfully!';
 }
+
+if (urlParams.get('editRole') === 'success') {
+    document.getElementById('message-for-admin').innerText = 'Role was updated successfully!';
+}

@@ -17,7 +17,6 @@
         <filter-name>AuthorizationFilter</filter-name>
         <url-pattern>/JSP Pages/admin/*</url-pattern>
     </filter-mapping>
-
     <servlet>
         <servlet-name>SignUpServlet</servlet-name>
         <servlet-class>com.mycompany.course.work.SignUpServlet</servlet-class>
@@ -38,6 +37,10 @@
         <servlet-name>FlightServlet</servlet-name>
         <servlet-class>com.mycompany.course.work.FlightServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditRoleServlet</servlet-name>
+        <servlet-class>com.mycompany.course.work.EditRoleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
         <url-pattern>/SignUpServlet</url-pattern>
@@ -57,6 +60,10 @@
     <servlet-mapping>
         <servlet-name>FlightServlet</servlet-name>
         <url-pattern>/FlightServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditRoleServlet</servlet-name>
+        <url-pattern>/EditRoleServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
