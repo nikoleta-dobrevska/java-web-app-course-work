@@ -32,6 +32,6 @@ public class EditRoleServlet extends HttpServlet {
             Logger.getLogger(EditRoleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/manage-users.jsp?editRole=success");
+        response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/manage-roles.jsp?editRole=success");
     }
 }
