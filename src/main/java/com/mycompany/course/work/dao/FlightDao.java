@@ -17,6 +17,7 @@ import java.util.List;
  * @author Niki
  */
 public class FlightDao {
+    private static int noOfRecords;
     
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Connection conn = null;
@@ -32,11 +33,11 @@ public class FlightDao {
     public static List<Flight> getAll() throws SQLException {  
         List<Flight> flights = new ArrayList<>();  
         String query = "SELECT * FROM Flights";
-        
+
         try (Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);) {  
+            PreparedStatement statement = conn.prepareStatement(query);) {
             ResultSet resultSet = statement.executeQuery();  
-            while(resultSet.next()){  
+            while(resultSet.next()) {  
                 Flight f = new Flight();  
                 f.id = resultSet.getInt("ID");
                 f.setFlightNumber(resultSet.getString("FlightNumber"));
@@ -49,7 +50,7 @@ public class FlightDao {
                 f.setPrice(resultSet.getInt("Price"));
                 f.setSeats(resultSet.getInt("Seats"));
                 flights.add(f);  
-            }  
+            }            
         } catch(ClassNotFoundException | SQLException e){
             System.out.println(e);
         }
@@ -87,7 +88,7 @@ public class FlightDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     f = new Flight(
-                        resultSet.getInt("ID"), // Pass ID to the constructor
+                        resultSet.getInt("ID"),
                         resultSet.getString("FlightNumber"),
                         resultSet.getString("Origin"),
                         resultSet.getString("Destination"),
@@ -145,4 +146,49 @@ public class FlightDao {
 
         return status;
     }  
+    
+    public static List<Flight> getFlightByOrigin(String origin, int offset, int noOfRecords) throws SQLException, ClassNotFoundException {
+        List<Flight> flights = new ArrayList<>();
+        String query = "SELECT * FROM Flights WHERE Origin=? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String countQuery = "SELECT COUNT(*) AS total FROM Flights WHERE Origin=?";
+        Flight f = null;
+
+        try (Connection conn = getConnection(); 
+            PreparedStatement statement = conn.prepareStatement(query);
+            PreparedStatement countStatement = conn.prepareStatement(countQuery);) {
+            statement.setString(1, origin);
+            statement.setInt(2, offset);
+            statement.setInt(3, noOfRecords);
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    f = new Flight(
+                            resultSet.getInt("ID"),
+                            resultSet.getString("FlightNumber"),
+                            resultSet.getString("Origin"),
+                            resultSet.getString("Destination"),
+                            resultSet.getString("DepartureDate"),
+                            resultSet.getString("DepartureTime"),
+                            resultSet.getString("ArrivalDate"),
+                            resultSet.getString("ArrivalTime"),
+                            resultSet.getInt("Price"),
+                            resultSet.getInt("Seats")
+                    );
+                    flights.add(f);
+                }
+                
+                countStatement.setString(1, origin);
+                try (ResultSet countResultSet = countStatement.executeQuery()) {
+                    if (countResultSet.next()) {
+                        FlightDao.noOfRecords = countResultSet.getInt("total");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return flights;
+        }
+    }
+    
+    public static int getNoOfRecords() { return noOfRecords; } 
 }

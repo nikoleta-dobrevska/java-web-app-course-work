@@ -17,15 +17,19 @@
         <title>Flights</title>
     </head>
     <body>
+        <div>
+            <jsp:include page="search-form.html"></jsp:include>  
+        </div>
         <div> 
             <form action="${pageContext.request.contextPath}/SignOutServlet" method="POST">
                 <input type="submit" value="Sign Out">
-            </form> 
-            <%
-                List<Flight> allFlights = FlightDao.getAll();
-                request.setAttribute("allFlights", allFlights);
-            %>  
-  
+            </form>
+                
+        <%
+            List<Flight> flights = FlightDao.getAll();
+            request.setAttribute("allFlights", flights);
+        %>
+                
             <h3>Flights</h3>
             <table border="1" width="90%">  
                 <tr>
@@ -40,17 +44,17 @@
                 </tr>
                 <c:forEach items="${allFlights}" var="f">  
                 <tr>
-                    <td>${f.getFlightNumber()}</td>  
-                    <td>${f.getOrigin()}</td>
-                    <td>${f.getDestination()}</td>
-                    <td>${f.getDepartureDate()}</td>  
-                    <td>${f.getDepartureTime()}</td>
-                    <td>${f.getArrivalDate()}</td>
-                    <td>${f.getArrivalTime()}</td>
-                    <td>${f.getPrice()}</td>
+                    <td>${f.flightNumber}</td>
+                    <td>${f.origin}</td>
+                    <td>${f.destination}</td>
+                    <td>${f.departureDate}</td>
+                    <td>${f.departureTime}</td>
+                    <td>${f.arrivalDate}</td>
+                    <td>${f.arrivalTime}</td>
+                    <td>${f.price}</td>
                 </tr>  
                 </c:forEach>  
-            </table>                  
+            </table>   
         </div>
     </body>
 </html>

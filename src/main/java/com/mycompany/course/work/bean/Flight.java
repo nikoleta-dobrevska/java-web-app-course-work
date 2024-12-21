@@ -46,6 +46,17 @@ public class Flight {
         this.price = price;
         this.seats = seats;
     }
+     
+    public Flight(String origin, String destination, String departureDate, String departureTime, String arrivalDate, String arrivalTime, int price, int seats) {
+        this.origin = origin;
+        this.destination = destination;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.arrivalDate = arrivalDate;
+        this.arrivalTime = arrivalTime;
+        this.price = price;
+        this.seats = seats;
+    }
     
     public int getId() {
         return id;

@@ -1,3 +1,4 @@
+C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\EditRoleServlet.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\SignUpServlet.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\dao\UserDao.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\JakartaRestConfiguration.java
@@ -5,6 +6,7 @@ C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\SignOutServlet.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\FlightServlet.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\AuthenticationFilter.java
+C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\SearchServlet.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\SignInServlet.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\dao\FlightDao.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\resources\JakartaEE10Resource.java
@@ -14,3 +16,4 @@ C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\bean\User.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\bean\UserRole.java
 C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\HashPassword.java
+C:\Users\Niki\Documents\NetBeansProjects\Course-Work\src\main\java\com\mycompany\course\work\AuthorizationFilter.java

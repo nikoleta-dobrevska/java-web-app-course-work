@@ -21,12 +21,10 @@
             <form action="${pageContext.request.contextPath}/SignOutServlet" method="POST">
                 <input type="submit" value="Sign Out">
             </form> 
-                
             <%
-                List<Flight> allFlights = FlightDao.getAll();
-                request.setAttribute("allFlights", allFlights);
-            %>  
-
+                List<Flight> flights = FlightDao.getAll();
+                request.setAttribute("allFlights", flights);
+            %>
             <h3>Flights</h3>
             <p id="message-for-user"></p>
             <table border="1" width="90%">  
@@ -41,15 +39,15 @@
                     <th>Price (BGN)</th>
                 </tr>
                 <c:forEach items="${allFlights}" var="f">  
-                <tr>
-                    <td>${f.getFlightNumber()}</td>  
-                    <td>${f.getOrigin()}</td>
-                    <td>${f.getDestination()}</td>
-                    <td>${f.getDepartureDate()}</td>  
-                    <td>${f.getDepartureTime()}</td>
-                    <td>${f.getArrivalDate()}</td>
-                    <td>${f.getArrivalTime()}</td>
-                    <td>${f.getPrice()}</td>
+                    <tr>
+                        <td>${f.flightNumber}</td>
+                        <td>${f.origin}</td>
+                        <td>${f.destination}</td>
+                        <td>${f.departureDate}</td>
+                        <td>${f.departureTime}</td>
+                        <td>${f.arrivalDate}</td>
+                        <td>${f.arrivalTime}</td>
+                        <td>${f.price}</td>
                     <td><a href="edit-flights.jsp?id=${f.id}">Edit</a></td>
                 <form action="${pageContext.request.contextPath}/FlightServlet" method="POST" style="display:inline;">
                     <input type="hidden" name="action" value="delete">

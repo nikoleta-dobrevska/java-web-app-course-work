@@ -6,15 +6,12 @@ package com.mycompany.course.work;
 
 import com.mycompany.course.work.bean.Flight;
 import com.mycompany.course.work.dao.FlightDao;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -48,18 +45,15 @@ public class FlightServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            try {
-            // Fetch flights from the DAO
+        try {
             List<Flight> flights = FlightDao.getAll();
             
-            // Set the flights as a request attribute
-           request.setAttribute("allFlights", flights);
-           
-            // Forward the request to the JSP
-            response.sendRedirect(request.getContextPath() + "/JSP Pages/admin/admin-dashboard.jsp");
-            } catch (SQLException e) {
-                response.getWriter().println("Error: " + e.getMessage());
-        }    
+            request.setAttribute("allFlights", flights);
+
+            request.getRequestDispatcher("/JSP Pages/user/user-dashboard.jsp").forward(request, response);
+        } catch (SQLException e) {
+            response.getWriter().println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -146,7 +140,7 @@ public class FlightServlet extends HttpServlet {
                 } else {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error deleting flight!");
                 }
-            } catch(Exception e) {
+            } catch(IOException e) {
                 System.out.println(e);
             }
         }
