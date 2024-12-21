@@ -18,20 +18,24 @@
         <div>
             <h2>SIGN UP</h2>
             <h4>Please fill in the following fields appropriately!</h4>
-            <form name="sign-up-form" action="${pageContext.request.contextPath}/SignUpServlet" method="post" onsubmit="return validateForm();">
+            <form name="sign-up-form" action="${pageContext.request.contextPath}/SignUpServlet" method="post" onsubmit="return comparePasswords();">
                 <p id="message-for-user"></p>
-                <p id="nameMessage"></p>
                 <label for="fname">First Name</label>
-                <input type="text" id="fname" name="fname" required oninput="validateNames();"><br>
+                <input type="text" id="fname" name="fname" required placeholder="John" pattern="[A-Za-z]+"
+                       title="Name should contain letters only, at least one character, and no special characters or numbers."><br>
                 <label for="lname">Last Name</label>
-                <input type="text" id="lname" name="lname" required oninput="validateNames();"><br>
+                <input type="text" id="lname" name="lname" required placeholder="Doe" pattern="[A-Za-z]+"
+                       title="Name should contain letters only, at least one character, and no special characters or numbers."><br>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required><br>
+                <input type="email" id="email" placeholder="john@example.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                       name="email" required><br>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required oninput="validatePassword();"><br>
-                <p id="validatePasswordMessage"></p>
+                <input type="password" id="password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" oninput="comparePasswords();"><br>
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required oninput="comparePasswords();"><br>
+                <input type="password" id="confirm-password" name="confirm-password" required
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" oninput="comparePasswords();"
+                       title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
                 <p id="comparePasswordsMessage"></p>
                 <label for="country">Country</label>
                 <select id="country" name="country">

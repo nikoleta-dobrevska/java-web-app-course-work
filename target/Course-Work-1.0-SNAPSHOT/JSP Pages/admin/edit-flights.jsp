@@ -24,7 +24,8 @@
             <input type="hidden" name="action" value="edit">
             <input type="hidden" name="id" value="<%= f.getId()%>">
             <label for="flightNumber">Flight Number</label>
-            <input type="text" id="flightNumber" name="flightNumber" value="<%= f.getFlightNumber()%>"/><br>
+            <input type="text" id="flightNumber" name="flightNumber" title="Please enter the flight number in the correct format"
+                   pattern="[A-Z]{2}[1-9]{3,4}" required value="<%= f.getFlightNumber()%>"/><br>
             <label for="origin">Origin</label>
             <select id="origin" name="origin">
                 <option value="Sofia">SOFIA (SOF)</option>
@@ -44,17 +45,21 @@
                 <option value="Oslo">OSLO (OSL)</option>
             </select><br>            
             <label for="depDate">Departure Date</label>
-            <input type="text" id="depDate" name="depDate" value="<%= f.getDepartureDate()%>"/><br>
+            <input type="text" id="depDate" name="depDate" title="Please enter the date in the correct format" required  
+                   pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/([0-9]{4})" value="<%= f.getDepartureDate()%>"/><br>
             <label for="depTime">Departure Time</label>
-            <input type="text" id="depTime" name="depTime" value="<%= f.getDepartureTime()%>"/><br>
+            <input type="text" id="depTime" name="depTime" title="Please enter a time in the 24-hour format (14:30)" required 
+                   pattern="([01][0-9]|2[0-3]):[0-5][0-9]" value="<%= f.getDepartureTime()%>"/><br>
             <label for="arrDate">Arrival Date</label>
-            <input type="text" id="arrDate" name="arrDate" value="<%= f.getArrivalDate()%>"/><br>
+            <input type="text" id="arrDate" name="arrDate" title="Please enter the date in the correct format" required 
+                   pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/([0-9]{4})" value="<%= f.getArrivalDate()%>"/><br>
             <label for="arrTime">Arrival Time</label>
-            <input type="text" id="arrTime" name="arrTime" value="<%= f.getArrivalTime()%>"/><br>
+            <input type="text" id="arrTime" name="arrTime" title="Please enter a time in the 24-hour format (14:30)" required 
+                   pattern="([01][0-9]|2[0-3]):[0-5][0-9]" value="<%= f.getArrivalTime()%>"/><br>
             <label for="price">Price</label>
-            <input type="number" id="price" name="price" value="<%= f.getPrice()%>"/>
+            <input type="number" id="price" name="price" title="Please enter the price" required value="<%= f.getPrice()%>"/>
             <label for="seats">Seats</label>
-            <input type="number" id="seats" name="seats" value="<%= f.getSeats()%>"/>
+            <input type="number" id="seats" name="seats" title="Please enter the number of seats" required value="<%= f.getSeats()%>"/>
             <input type="submit" value="Edit"/>
         </form>
     </body>

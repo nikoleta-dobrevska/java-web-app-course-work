@@ -16,7 +16,8 @@
         <form action="${pageContext.request.contextPath}/FlightServlet" method="post">
             <input type="hidden" name="action" value="add">
             <label for="flightNumber">Flight Number</label>
-            <input type="text" id="flightNumber" name="flightNumber" required/><br>
+            <input type="text" id="flightNumber" placeholder="FN1234" pattern="[A-Z]{2}[1-9]{3,4}" name="flightNumber" 
+                       title="Please enter the flight number in the correct format" required/><br>
             <label for="origin">Origin</label>
             <select id="origin" name="origin">
                 <option value="Sofia">SOFIA (SOF)</option>
@@ -36,17 +37,21 @@
                 <option value="Oslo">OSLO (OSL)</option>
             </select><br>            
             <label for="depDate">Departure Date</label>
-            <input type="text" id="depDate" name="depDate" required/><br>
+            <input type="text" id="depDate" placeholder="DD/MM/YYYY" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/([0-9]{4})"  
+                   name="depDate" title="Please enter the date in the correct format" required/><br>
             <label for="depTime">Departure Time</label>
-            <input type="text" id="depTime" name="depTime" required/><br>
+            <input type="text" id="depTime" placeholder="00:00" pattern="([01][0-9]|2[0-3]):[0-5][0-9]"  
+                   name="depTime" title="Please enter a time in the 24-hour format (14:30)" required/><br>
             <label for="arrDate">Arrival Date</label>
-            <input type="text" id="arrDate" name="arrDate" required/><br>
+            <input type="text" id="arrDate" placeholder="DD/MM/YYYY" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/([0-9]{4})"
+                   name="arrDate" title="Please enter the date in the correct format" required/><br>
             <label for="arrTime">Arrival Time</label>
-            <input type="text" id="arrTime" name="arrTime" required/><br>
+            <input type="text" id="arrTime" placeholder="00:00" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" 
+                   name="arrTime" title="Please enter a time in the 24-hour format (14:30)" required/><br>
             <label for="price">Price</label>
-            <input type="number" id="price" name="price" required/>
+            <input type="number" id="price" name="price" title="Please enter the price" required/>
             <label for="seats">Seats</label>
-            <input type="number" id="seats" name="seats" required/>
+            <input type="number" id="seats" name="seats" title="Please enter the number of seats" required/>
             <input type="submit" value="Add"/>
         </form>
     </body>
