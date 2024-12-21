@@ -25,10 +25,23 @@
                 <input type="submit" value="Sign Out">
             </form>
                 
-        <%
-            List<Flight> flights = FlightDao.getAll();
-            request.setAttribute("allFlights", flights);
-        %>
+            <%
+                int currentPage = 1;
+                int recordsPerPage = 5;
+
+                if (request.getParameter("page") != null) {
+                    currentPage = Integer.parseInt(request.getParameter("page"));
+                }
+
+                List<Flight> flights = FlightDao.getAll((currentPage - 1) * recordsPerPage, recordsPerPage);
+                int noOfRecords = FlightDao.getNoOfRecords();
+                int noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+                request.setAttribute("noOfPages", noOfPages);
+                request.setAttribute("currentPage", currentPage);
+                request.setAttribute("allFlights", flights);
+            %>
+
                 
             <h3>Flights</h3>
             <table border="1" width="90%">  
@@ -55,6 +68,31 @@
                 </tr>  
                 </c:forEach>  
             </table>   
+            <!-- Previous Button -->
+            <c:if test="${currentPage != 1}"> 
+                <a href="${pageContext.request.contextPath}/JSP Pages/user/user-dashboard.jsp?page=${currentPage - 1}">Previous</a> 
+            </c:if> 
+
+            <!-- Pagination -->
+            <table border="1" cellpadding="5" cellspacing="5"> 
+                <tr> 
+                    <c:forEach begin="1" end="${noOfPages}" var="i"> 
+                        <c:choose> 
+                            <c:when test="${currentPage == i}"> 
+                                <td>${i}</td> 
+                            </c:when> 
+                            <c:otherwise> 
+                                <td><a href="${pageContext.request.contextPath}/JSP Pages/user/user-dashboard.jsp?page=${i}">${i}</a></td> 
+                                </c:otherwise> 
+                            </c:choose> 
+                        </c:forEach> 
+                </tr> 
+            </table> 
+
+            <!-- Next Button -->
+            <c:if test="${currentPage < noOfPages}"> 
+                <a href="${pageContext.request.contextPath}/JSP Pages/user/user-dashboard.jsp?page=${currentPage + 1}">Next</a> 
+            </c:if> 
         </div>
     </body>
 </html>

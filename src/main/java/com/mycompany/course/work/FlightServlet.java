@@ -45,15 +45,6 @@ public class FlightServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            List<Flight> flights = FlightDao.getAll();
-            
-            request.setAttribute("allFlights", flights);
-
-            request.getRequestDispatcher("/JSP Pages/user/user-dashboard.jsp").forward(request, response);
-        } catch (SQLException e) {
-            response.getWriter().println("Error: " + e.getMessage());
-        }
     }
 
     /**

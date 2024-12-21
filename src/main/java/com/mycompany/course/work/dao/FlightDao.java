@@ -30,12 +30,17 @@ public class FlightDao {
         return conn;
     }
     
-    public static List<Flight> getAll() throws SQLException {  
+    public static List<Flight> getAll(int offset, int noOfRecords) throws SQLException {  
         List<Flight> flights = new ArrayList<>();  
-        String query = "SELECT * FROM Flights";
+        String query = "SELECT * FROM Flights OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String countQuery = "SELECT COUNT(*) AS total FROM Flights";
 
         try (Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);) {
+            PreparedStatement statement = conn.prepareStatement(query);
+            PreparedStatement countStatement = conn.prepareStatement(countQuery);) {  
+            statement.setInt(1, offset);
+            statement.setInt(2, noOfRecords);
+            
             ResultSet resultSet = statement.executeQuery();  
             while(resultSet.next()) {  
                 Flight f = new Flight();  
@@ -50,7 +55,13 @@ public class FlightDao {
                 f.setPrice(resultSet.getInt("Price"));
                 f.setSeats(resultSet.getInt("Seats"));
                 flights.add(f);  
-            }            
+            }  
+            
+            try (ResultSet countResultSet = countStatement.executeQuery()) {
+                if (countResultSet.next()) {
+                    FlightDao.noOfRecords = countResultSet.getInt("total");
+                }
+            }
         } catch(ClassNotFoundException | SQLException e){
             System.out.println(e);
         }
