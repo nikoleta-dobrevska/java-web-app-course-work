@@ -158,22 +158,61 @@ public class FlightDao {
         return status;
     }  
     
-    public static List<Flight> getFlightByOrigin(String origin, int offset, int noOfRecords) throws SQLException, ClassNotFoundException {
+    public static List<Flight> searchFlight(String origin, String destination, int maxPrice, int offset, int noOfRecords) throws SQLException, ClassNotFoundException {
         List<Flight> flights = new ArrayList<>();
-        String query = "SELECT * FROM Flights WHERE Origin=? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        String countQuery = "SELECT COUNT(*) AS total FROM Flights WHERE Origin=?";
-        Flight f = null;
+
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Flights WHERE 1=1");
+        StringBuilder countQueryBuilder = new StringBuilder("SELECT COUNT(*) AS total FROM Flights WHERE 1=1");
+
+        if (!"Anywhere".equals(origin)) {
+            queryBuilder.append(" AND Origin = ?");
+            countQueryBuilder.append(" AND Origin = ?");
+        }
+        
+        if (!"Anywhere".equals(destination)) {
+            queryBuilder.append(" AND Destination = ?");
+            countQueryBuilder.append(" AND Destination = ?");
+        }
+        if (maxPrice >= 0) {
+            queryBuilder.append(" AND Price <= ?");
+            countQueryBuilder.append(" AND Price <= ?");
+        }
+
+        queryBuilder.append(" OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        String query = queryBuilder.toString();
+        String countQuery = countQueryBuilder.toString();
 
         try (Connection conn = getConnection(); 
-            PreparedStatement statement = conn.prepareStatement(query);
-            PreparedStatement countStatement = conn.prepareStatement(countQuery);) {
-            statement.setString(1, origin);
-            statement.setInt(2, offset);
-            statement.setInt(3, noOfRecords);
+            PreparedStatement statement = conn.prepareStatement(query); 
+            PreparedStatement countStatement = conn.prepareStatement(countQuery)) {
+
+            int paramIndex = 1;
+
+            if (!"Anywhere".equals(origin)) {
+                statement.setString(paramIndex, origin);
+                countStatement.setString(paramIndex, origin);
+                paramIndex++;
+            }
             
+            if (!"Anywhere".equals(destination)) {
+                statement.setString(paramIndex, destination);
+                countStatement.setString(paramIndex, destination);
+                paramIndex++;
+            }
+            
+            if (maxPrice >= 0 ) {
+                statement.setInt(paramIndex, maxPrice);
+                countStatement.setInt(paramIndex, maxPrice);
+                paramIndex++;
+            }
+
+            statement.setInt(paramIndex, offset);
+            statement.setInt(paramIndex + 1, noOfRecords);
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    f = new Flight(
+                    Flight f = new Flight(
                             resultSet.getInt("ID"),
                             resultSet.getString("FlightNumber"),
                             resultSet.getString("Origin"),
@@ -187,19 +226,20 @@ public class FlightDao {
                     );
                     flights.add(f);
                 }
-                
-                countStatement.setString(1, origin);
-                try (ResultSet countResultSet = countStatement.executeQuery()) {
-                    if (countResultSet.next()) {
-                        FlightDao.noOfRecords = countResultSet.getInt("total");
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(e);
             }
-            return flights;
+
+            try (ResultSet countResultSet = countStatement.executeQuery()) {
+                if (countResultSet.next()) {
+                    FlightDao.noOfRecords = countResultSet.getInt("total");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error during flight search: " + e.getMessage());
+            throw e;
         }
+
+        return flights;
     }
-    
+
     public static int getNoOfRecords() { return noOfRecords; } 
 }

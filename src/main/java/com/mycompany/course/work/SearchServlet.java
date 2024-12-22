@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,20 +31,30 @@ public class SearchServlet extends HttpServlet {
             int recordsPerPage = 5;
             
             if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
+                try {
+                    page = Integer.parseInt(request.getParameter("page"));
+                } catch (NumberFormatException e) {
+                    page = 1;
+                }
             }
             
             String origin = request.getParameter("origin");
-            List<Flight> flights = FlightDao.getFlightByOrigin(origin, (page - 1) * recordsPerPage, recordsPerPage);
+            String destination = request.getParameter("destination");
+            int price = Integer.parseInt(request.getParameter("price"));
+            
+            List<Flight> flights = FlightDao.searchFlight(origin, destination, price, (page - 1) * recordsPerPage, recordsPerPage);
 
             int noOfRecords = FlightDao.getNoOfRecords();
             int noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
             
+            request.setAttribute("origin", origin);
+            request.setAttribute("destination", destination);
+            request.setAttribute("price", price);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
 
             if (flights.isEmpty()) {
-                request.setAttribute("message", "No flights found for the given origin.");
+                response.getWriter().println("No flights found.");
             } else {
                 request.setAttribute("matchingFlights", flights);
             }

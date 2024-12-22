@@ -15,11 +15,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <form action="/Course-Work/SearchServlet" method="GET">
                 <label for="origin">Origin</label>
                 <select id="origin" name="origin">
+                    <option value="Anywhere">Anywhere</option>
                     <option value="Sofia">SOFIA (SOF)</option>
                     <option value="Varna">VARNA (VAR)</option>
-                </select><br>              
+                </select><br>   
+                <label for="destination">Destination</label>
+                <select id="destination" name="destination">
+                    <option value="Anywhere">Anywhere</option>
+                    <option value="Sofia">SOFIA (SOF)</option>
+                    <option value="Varna">VARNA (VAR)</option>
+                    <option value="London">LONDON (LHR)</option>
+                    <option value="Paris">PARIS (CDG)</option>
+                    <option value="Madrid">MADRID (MAD)</option>
+                    <option value="Rome">ROME (FCO)</option>
+                    <option value="Vienna">VIENNA (VIE)</option>
+                    <option value="Berlin">BERLIN (BER)</option>
+                    <option value="Reykjavik">REYKJAVIK (RKV)</option>
+                    <option value="Oslo">OSLO (OSL)</option>
+                </select><br>    
+                <label for="price">Price</label>
+                <input type="range" id="price" name="price" min="0" max="1000" value="500"/><br>
+                <output id="price_output" for="price"></output><br>
                 <input type="submit" value="Find Flight"/>
             </form>
         </div>
+                
+        <script>
+            const priceSlider = document.getElementById("price");
+            const priceOutput = document.getElementById("price_output");
+
+            priceOutput.textContent = priceSlider.value;
+
+            priceSlider.addEventListener("input", function() {
+              priceOutput.textContent = this.value;
+            });
+        </script>
     </body>
 </html>
