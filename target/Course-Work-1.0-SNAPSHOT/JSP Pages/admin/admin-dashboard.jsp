@@ -14,13 +14,27 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Styles/admin-style.css">    
         <title>Flights</title>
     </head>
     <body>
-        <div> 
-            <form action="${pageContext.request.contextPath}/SignOutServlet" method="POST">
-                <input type="submit" value="Sign Out">
-            </form> 
+        <div class="header-wrapper">
+            <div class="header">
+                <img src="${pageContext.request.contextPath}/Images/header.jpg" alt="header" width="100%" height="255vh">
+                <h1>Flights</h1>
+            </div>
+        </div>
+        <div class="menu-wrapper">
+            <div class="user-wrapper">
+                <img src="${pageContext.request.contextPath}/Images/profile.jpg" alt="profile picture" width="100px" height="100px">
+                <form action="${pageContext.request.contextPath}/SignOutServlet" method="POST">
+                    <input class="btn" type="submit" value="Sign Out">
+                    <a class="btn" href="${pageContext.request.contextPath}/JSP Pages/admin/add-flight.jsp">Add Flight</a>
+                    <a class="btn" href="${pageContext.request.contextPath}/JSP Pages/admin/manage-roles.jsp">Manage Roles</a>
+                </form>                  
+            </div> 
+        </div>
+ 
             <%
                 int currentPage = 1;
                 int recordsPerPage = 5;
@@ -37,67 +51,64 @@
                 request.setAttribute("currentPage", currentPage);
                 request.setAttribute("allFlights", flights);
             %>
-            <h3>Flights</h3>
-            <p id="message-for-user"></p>
-            <table border="1" width="90%">  
-                <tr>
-                    <th>Flight Number</th>
-                    <th>Origin</th>
-                    <th>Destination</th>
-                    <th>Departure Date</th>  
-                    <th>Departure Time</th>
-                    <th>Arrival Date</th>
-                    <th>Arrival Time</th>
-                    <th>Price (BGN)</th>
-                </tr>
-                <c:forEach items="${allFlights}" var="f">  
-                    <tr>
-                        <td>${f.flightNumber}</td>
-                        <td>${f.origin}</td>
-                        <td>${f.destination}</td>
-                        <td>${f.departureDate}</td>
-                        <td>${f.departureTime}</td>
-                        <td>${f.arrivalDate}</td>
-                        <td>${f.arrivalTime}</td>
-                        <td>${f.price}</td>
-                    <td><a href="edit-flights.jsp?id=${f.id}">Edit</a></td>
-                <form action="${pageContext.request.contextPath}/FlightServlet" method="POST" style="display:inline;">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" value="${f.id}">
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete this flight?');">Delete</button>
-                </form>
-                </tr>  
-                </c:forEach>  
-            </table>     
-            <a href="${pageContext.request.contextPath}/JSP Pages/admin/add-flight.jsp">Add</a>
-            <a href="${pageContext.request.contextPath}/JSP Pages/admin/manage-roles.jsp">Manage Roles</a>
-            
-            <!-- Previous Button -->
-            <c:if test="${currentPage != 1}"> 
-                <a href="${pageContext.request.contextPath}/JSP Pages/admin/admin-dashboard.jsp?page=${currentPage - 1}">Previous</a> 
-            </c:if> 
-
-            <!-- Pagination -->
-            <table border="1" cellpadding="5" cellspacing="5"> 
-                <tr> 
-                    <c:forEach begin="1" end="${noOfPages}" var="i"> 
-                        <c:choose> 
-                            <c:when test="${currentPage == i}"> 
-                                <td>${i}</td> 
-                            </c:when> 
-                            <c:otherwise> 
-                                <td><a href="${pageContext.request.contextPath}/JSP Pages/admin/admin-dashboard.jsp?page=${i}">${i}</a></td> 
-                                </c:otherwise> 
-                            </c:choose> 
-                        </c:forEach> 
-                </tr> 
-            </table> 
-
-            <!-- Next Button -->
-            <c:if test="${currentPage < noOfPages}"> 
-                <a href="${pageContext.request.contextPath}/JSP Pages/admin/admin-dashboard.jsp?page=${currentPage + 1}">Next</a> 
-            </c:if> 
+            <div class="table-wrapper">
+              <p id="message-for-admin"></p>
+              <table>  
+                  <tr>
+                      <th>Flight Number</th>
+                      <th>Origin</th>
+                      <th>Destination</th>
+                      <th>Departure Date</th>  
+                      <th>Departure Time</th>
+                      <th>Arrival Date</th>
+                      <th>Arrival Time</th>
+                      <th>Price (BGN)</th>
+                      <th class="act">Edit</<th>
+                      <th class="act">Delete</th>
+                  </tr>
+                  <c:forEach items="${allFlights}" var="f">  
+                      <tr>
+                          <td>${f.flightNumber}</td>
+                          <td>${f.origin}</td>
+                          <td>${f.destination}</td>
+                          <td>${f.departureDate}</td>
+                          <td>${f.departureTime}</td>
+                          <td>${f.arrivalDate}</td>
+                          <td>${f.arrivalTime}</td>
+                          <td>${f.price}</td>
+                          <td><a class="btn" href="edit-flights.jsp?id=${f.id}">Edit Flight</a></td>
+                          <form action="${pageContext.request.contextPath}/FlightServlet" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id" value="${f.id}">
+                            <td><button class="btn del" type="submit" onclick="return confirm('Are you sure you want to delete this flight?');">Delete Flight</button></td>
+                          </form>
+                      </tr>  
+                  </c:forEach>  
+              </table>       
+            </div>         
+            <div class="pagination-wrapper">
+                <c:if test="${currentPage != 1}"> 
+                    <a href="${pageContext.request.contextPath}/JSP Pages/admin/admin-dashboard.jsp?page=${currentPage - 1}">Previous</a> 
+                </c:if> 
+                <table> 
+                    <tr> 
+                        <c:forEach begin="1" end="${noOfPages}" var="i"> 
+                            <c:choose> 
+                                <c:when test="${currentPage == i}"> 
+                                    <td>${i}</td> 
+                                </c:when> 
+                                <c:otherwise> 
+                                    <td><a href="${pageContext.request.contextPath}/JSP Pages/admin/admin-dashboard.jsp?page=${i}">${i}</a></td> 
+                                    </c:otherwise> 
+                                </c:choose> 
+                            </c:forEach> 
+                    </tr> 
+                </table> 
+                <c:if test="${currentPage < noOfPages}"> 
+                    <a href="${pageContext.request.contextPath}/JSP Pages/admin/admin-dashboard.jsp?page=${currentPage + 1}">Next</a> 
+                </c:if> 
         </div>
+        <div class="footer">All rights reserved © 2025</div>
         <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/params-script.js"></script>
     </body>
 </html>

@@ -1,0 +1,47 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 20, 2025, 2:27:55 PM
+    Author     : Niki
+*/
+h4 {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: #8499F4;
+    margin: 0;
+}
+
+label {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #8499F4;
+    font-size: 18px;
+}
+
+output {
+    color: #8499F4;
+    font-size: 18px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+}
+
+input:last-child {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    padding: 5px;
+    color: white;
+    background-color: #8499F4;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+input:last-child:hover, a:hover {
+    opacity: 0.7;
+}

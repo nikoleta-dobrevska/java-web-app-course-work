@@ -1,0 +1,104 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 19, 2025, 4:04:18 PM
+    Author     : Niki
+*/
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    flex: 1;
+    gap: 10px;
+}
+
+h1 {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 45px;
+    color: #8499F4;
+    margin: 0;
+}
+
+h4 {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #8499F4;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-wrapper {
+    background-color: #F4DE84;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+a {
+    color: #5B6CB7;
+    background-color: #DAE0FD;
+}
+
+a, input:last-child {
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid darkslategrey;
+    border-radius: 3px;
+    padding: 5px;
+    align-self: center;
+}
+
+input:last-child {
+    color: white;
+    background-color: #8499F4;
+    cursor: pointer;
+}
+
+input:last-child:hover, a:hover {
+    opacity: 0.7;
+}
+
+#sign-up-link {
+    text-decoration: underline;
+    font-family: 'Times New Roman', sans-serif;
+    background-color: unset;
+    border: unset;
+    border-radius: unset;
+    padding: unset;
+}
+
+p {
+    color: darkslateblue;;
+    font-size: 15px;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    background-color: #8499F4;
+}
